@@ -10,29 +10,36 @@ h1 {
     color: white;
 } */
 
-#cobra {
+.photo {
+    background-size: cover; 
+    background-position: center;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+}
+
+#cobra .photo {
     background-image: url(../images/cobraCommanderGIJ.jpg);
-    background-size: cover; 
-    background-position: center;
+    
 }
-#leonardo {
+#leonardo .photo{
     background-image: url(../images/leonardoTMNT.jpg);
-    background-size: cover; 
-    background-position: center;
 }
-#megatron {
+#megatron .photo{
     background-image: url(../images/megatronT.jpg);
-    background-size: cover; 
-    background-position: center;
 }
-#velma {
+#velma .photo{
     background-image: url(../images/velmaSD.jpg);
-    background-size: cover; 
-    background-position: center;
 }
 
 .character {
     background-color: aqua;
     min-width: 200px;
     min-height: 200px;
+    text-align: center;
+
+}
+
+.name {
+    background: red;
 }
