@@ -1,0 +1,38 @@
+body{
+    font-family: 'Righteous', cursive;
+}
+
+h1 {
+    text-align: right;
+}
+
+/* h2 {
+    color: white;
+} */
+
+#cobra {
+    background-image: url(../images/cobraCommanderGIJ.jpg);
+    background-size: cover; 
+    background-position: center;
+}
+#leonardo {
+    background-image: url(../images/leonardoTMNT.jpg);
+    background-size: cover; 
+    background-position: center;
+}
+#megatron {
+    background-image: url(../images/megatronT.jpg);
+    background-size: cover; 
+    background-position: center;
+}
+#velma {
+    background-image: url(../images/velmaSD.jpg);
+    background-size: cover; 
+    background-position: center;
+}
+
+.character {
+    background-color: aqua;
+    min-width: 200px;
+    min-height: 200px;
+}
