@@ -5,37 +5,85 @@ $(document).ready(function () {
     $("#attack-button").click(function () {
         attackButton();
     });
-    $("#restart-button").click(function(){
+    $("#restart-button").click(function () {
         startGame();
     });
     startGame();
 });
 
-var selectedPlayer = null;
-var selectedOpponent = null;
+var gamePlay = {
+    selectedPlayer: null,
+    selectedOpponent: null,
+
+}
 
 function startGame() {
-    selectedPlayer = null;
-    selectedOpponent = null;
+    gamePlay.selectedPlayer = null;
+    gamePlay.selectedOpponent = null;
     $("#instructions").text("Choose Your Character");
     $("#attack-button").attr("disabled", true);
+    $(".hidden").hide();
     $("#character-choices").append($(".character"));
+    $(".character").each(function(index, value){
+        var health =  $(value).attr("data-start-health");
+        var selectedPlayerId = $(value).attr('id');
+        $('#' + selectedPlayerId + " .health span").text(health);
+
+        var attack =  $(value).attr("data-start-attack-power");
+        var selectedPlayerId = $(value).attr('id');
+        $('#' + selectedPlayerId + " .attack span").text(attack);
+    });
 }
 
 function characterChoice(that) {
     //SELECTS PLAYER
-    if (selectedPlayer === null) {
+    if (gamePlay.selectedPlayer === null) {
         $(that).insertBefore($("#battleground"));
-        selectedPlayer = that;
+        gamePlay.selectedPlayer = that;
         $("#instructions").text("Choose Your Opponent");
-    } else if (selectedOpponent === null) {
+    } else if (gamePlay.selectedOpponent === null) {
         $(that).insertAfter($("#battleground"));
-        selectedOpponent = that;
+        gamePlay.selectedOpponent = that;
         $("#instructions").text("Fight!");
         $("#attack-button").attr("disabled", false);
     }
 }
 
 function attackButton() {
-    console.log("works");
+    if (gamePlay.selectedPlayer !== null && gamePlay.selectedOpponent !== null) {
+        var selectedPlayerId = $(gamePlay.selectedPlayer).attr('id');
+        var selectedPlayerAttack = $('#' + selectedPlayerId + " .attack span").text();
+        var selectedPlayerHealth = $('#' + selectedPlayerId + " .health span").text();
+
+        var selectedOpponentId = $(gamePlay.selectedOpponent).attr('id');
+        var selectedOpponentAttack = $('#' + selectedOpponentId + " .attack span").text();
+        var selectedOpponentHealth = $('#' + selectedOpponentId + " .health span").text();
+
+        //SELECTED PLAYER DAMAGES OPPONENT
+        selectedOpponentHealth = selectedOpponentHealth - selectedPlayerAttack;
+        $('#' + selectedOpponentId + " .health span").text(selectedOpponentHealth);
+
+        //SEE IF OPPONENT IS DEAD
+        if(selectedOpponentHealth <= 0) {
+            $(".deads").append($(gamePlay.selectedOpponent));
+            $("#instructions").text("Choose Another Opponent");
+            gamePlay.selectedOpponent = null;
+            $("#attack-button").attr("disabled", true);
+        }
+
+        //OPPONENT DAMAGES SELECTED PLAYER
+        selectedPlayerHealth = selectedPlayerHealth - selectedOpponentAttack;
+        $('#' + selectedPlayerId + " .health span").text(selectedPlayerHealth);
+
+        //SEE IF SELECTED PLAYER IS DEAD
+        if(selectedPlayerHealth <= 0) {
+            $("#attack-button").attr("disabled", true);
+            $(".hidden").show();
+        }
+
+        //SELECTED PLAYER ATTACK POWER INCREASED
+        selectedPlayerAttack = Number(selectedPlayerAttack) + Number($(gamePlay.selectedPlayer).attr("data-start-attack-power"));
+        console.log(typeof selectedPlayerAttack);
+        $('#' + selectedPlayerId + " .attack span").text(selectedPlayerAttack);
+    }
 }

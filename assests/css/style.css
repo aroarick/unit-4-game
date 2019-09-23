@@ -1,14 +1,22 @@
+/* COLOURS
+rgb(59, 63, 182) blue
+rgb(255, 164, 0) yellow*/
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
 body{
     font-family: 'Righteous', cursive;
+    background-color: black; 
 }
 
 h1 {
     text-align: right;
+    color: white;
 }
 
-/* h2 {
-    color: white;
-} */
+.container {
+    border: 4px dotted rgb(255, 164, 0);
+    padding: 20px;
+}
 
 .photo {
     background-size: cover; 
@@ -33,13 +41,45 @@ h1 {
 }
 
 .character {
-    background-color: aqua;
+    background-color: black;
     min-width: 200px;
     min-height: 200px;
     text-align: center;
+    border: 2px dashed white;
 
 }
 
 .name {
-    background: red;
+    background: rgb(59, 63, 182);
+    color: white;
+}
+
+.health, .attack, .counter-attack, #instructions {
+    color: white;
+}
+
+.deads {
+    display: none;
+}
+
+#loser {
+    position: relative;
+    margin: 0px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 140px;
+    color: rgb(255, 164, 0);
+    transform: rotate(-15deg);
+    -ms-transform: rotate(-15deg);
+    /* IE 9 */
+    -webkit-transform: rotate(-15deg);
+    /* Safari and Chrome */
+    margin-left: 300px;
+    margin-top: -750px;
+    -webkit-filter: drop-shadow(2px 2px 20px black);
+    -webkit-text-stroke: black 2px;
+    z-index: 20;
+}
+
+.hidden {
+    display: none;
 }
