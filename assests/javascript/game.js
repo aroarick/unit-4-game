@@ -14,7 +14,7 @@ $(document).ready(function () {
 var gamePlay = {
     selectedPlayer: null,
     selectedOpponent: null,
-
+    counter: 0,
 }
 
 function startGame() {
@@ -22,7 +22,8 @@ function startGame() {
     gamePlay.selectedOpponent = null;
     $("#instructions").text("Choose Your Character");
     $("#attack-button").attr("disabled", true);
-    $(".hidden").hide();
+    $(".hiddenLose").hide();
+    $(".hiddenWin").hide();
     $("#character-choices").append($(".character"));
     $(".character").each(function(index, value){
         var health =  $(value).attr("data-start-health");
@@ -69,6 +70,7 @@ function attackButton() {
             $("#instructions").text("Choose Another Opponent");
             gamePlay.selectedOpponent = null;
             $("#attack-button").attr("disabled", true);
+            gamePlay.counter++;
         }
 
         //OPPONENT DAMAGES SELECTED PLAYER
@@ -78,12 +80,14 @@ function attackButton() {
         //SEE IF SELECTED PLAYER IS DEAD
         if(selectedPlayerHealth <= 0) {
             $("#attack-button").attr("disabled", true);
-            $(".hidden").show();
+            $(".hiddenLose").show();
+        } else if (selectedPlayerHealth >= 0 && gamePlay.counter === 3){
+            $("#attack-button").attr("disabled", true);
+            $(".hiddenWin").show();
         }
 
         //SELECTED PLAYER ATTACK POWER INCREASED
         selectedPlayerAttack = Number(selectedPlayerAttack) + Number($(gamePlay.selectedPlayer).attr("data-start-attack-power"));
-        console.log(typeof selectedPlayerAttack);
         $('#' + selectedPlayerId + " .attack span").text(selectedPlayerAttack);
     }
 }
