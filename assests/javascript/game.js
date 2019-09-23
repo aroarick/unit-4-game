@@ -20,19 +20,22 @@ var gamePlay = {
 function startGame() {
     gamePlay.selectedPlayer = null;
     gamePlay.selectedOpponent = null;
+    gamePlay.counter = 0;
     $("#instructions").text("Choose Your Character");
     $("#attack-button").attr("disabled", true);
     $(".hiddenLose").hide();
     $(".hiddenWin").hide();
     $("#character-choices").append($(".character"));
-    $(".character").each(function(index, value){
-        var health =  $(value).attr("data-start-health");
+    $(".character").each(function (index, value) {
+        var health = $(value).attr("data-start-health");
         var selectedPlayerId = $(value).attr('id');
         $('#' + selectedPlayerId + " .health span").text(health);
 
-        var attack =  $(value).attr("data-start-attack-power");
+        var attack = $(value).attr("data-start-attack-power");
         var selectedPlayerId = $(value).attr('id');
         $('#' + selectedPlayerId + " .attack span").text(attack);
+
+        $('#' + selectedPlayerId + " .progress-bar").attr("aria-valuemax", health);
     });
 }
 
@@ -52,6 +55,7 @@ function characterChoice(that) {
 
 function attackButton() {
     if (gamePlay.selectedPlayer !== null && gamePlay.selectedOpponent !== null) {
+        console.log(gamePlay.counter);
         var selectedPlayerId = $(gamePlay.selectedPlayer).attr('id');
         var selectedPlayerAttack = $('#' + selectedPlayerId + " .attack span").text();
         var selectedPlayerHealth = $('#' + selectedPlayerId + " .health span").text();
@@ -63,9 +67,14 @@ function attackButton() {
         //SELECTED PLAYER DAMAGES OPPONENT
         selectedOpponentHealth = selectedOpponentHealth - selectedPlayerAttack;
         $('#' + selectedOpponentId + " .health span").text(selectedOpponentHealth);
+        $('#' + selectedOpponentId + " .progress-bar").attr("aria-valuenow", selectedOpponentHealth);
+        var maxHealth = $('#' + selectedOpponentId).attr("data-start-health");
+        $('#' + selectedOpponentId + " .progress-bar").css("width", (100/maxHealth)*selectedOpponentHealth + "%");
+        console.log(maxHealth, selectedOpponentHealth, (100/maxHealth)*selectedOpponentHealth);
+
 
         //SEE IF OPPONENT IS DEAD
-        if(selectedOpponentHealth <= 0) {
+        if (selectedOpponentHealth <= 0) {
             $(".deads").append($(gamePlay.selectedOpponent));
             $("#instructions").text("Choose Another Opponent");
             gamePlay.selectedOpponent = null;
@@ -78,10 +87,10 @@ function attackButton() {
         $('#' + selectedPlayerId + " .health span").text(selectedPlayerHealth);
 
         //SEE IF SELECTED PLAYER IS DEAD
-        if(selectedPlayerHealth <= 0) {
+        if (selectedPlayerHealth <= 0) {
             $("#attack-button").attr("disabled", true);
             $(".hiddenLose").show();
-        } else if (selectedPlayerHealth >= 0 && gamePlay.counter === 3){
+        } else if (selectedPlayerHealth > 0 && selectedOpponentHealth <= 0 && gamePlay.counter >= 3) {
             $("#attack-button").attr("disabled", true);
             $(".hiddenWin").show();
         }
