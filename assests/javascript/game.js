@@ -21,6 +21,7 @@ function startGame() {
     gamePlay.selectedPlayer = null;
     gamePlay.selectedOpponent = null;
     gamePlay.counter = 0;
+    $(".progress-bar").css("width", "100%");
     $("#instructions").text("Choose Your Character");
     $("#attack-button").attr("disabled", true);
     $(".hiddenLose").hide();
